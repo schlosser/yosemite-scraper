@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from collections import defaultdict
 from secrets import MG_KEY, MG_DOMAIN
 import HTMLParser
+import sys
 
 BASE_URL = 'http://www.recreation.gov'
 REQUEST_URL = BASE_URL + '/campsiteCalendar.do'
@@ -95,6 +96,9 @@ for trip in config['trips']:
                 sites_html += SITE.format(site_number, url, action)
             camps_html += CAMP.format(camp_name, sites_html)
         body += DAY.format(day_str, camps_html)
+
+if not found:
+    sys.exit()
 
 with open('style.min.css') as css_file:
     html = HTML.format(css_file.read(), body)
